@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - DATABASE_URL=postgres://video_user:video_password@db:5432/video_stats?sslmode=disable
+      - YOUTUBE_API_KEY=AIzaSyDzce9GZEMoL15w5Xv7j_x3E6gUbapWHyA
+      - INSTAGRAM_TOKEN=test-token-for-now
+    depends_on:
+      - db
+
+  db:
+    image: postgres:14
+    environment:
+      - POSTGRES_USER=video_user
+      - POSTGRES_PASSWORD=video_password
+      - POSTGRES_DB=video_stats
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
